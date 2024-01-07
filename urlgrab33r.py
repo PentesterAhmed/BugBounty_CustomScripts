@@ -31,21 +31,31 @@ print(banner)
 print("Author: BudSec")
 
 
+# Existing code...
 
 def extract_urls(input_file):
     # Updated regular expression with non-capturing groups
     pattern = r'\bhttps?:\/\/(?:[a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?::\d+)?(?:\/|\\{1,3})[a-zA-Z0-9-_.\/\\]*\b'
+
+    found_urls = set()  # Use a set to store unique URLs
 
     try:
         with open(input_file, 'r') as file:
             for line in file:
                 matches = re.findall(pattern, line)
                 for match in matches:
-                    print(f"{Fore.GREEN}Found URL: {Style.RESET_ALL}{match}")
+                    found_urls.add(match)  # Add the URL to the set
+
+        # Print unique URLs
+        for url in found_urls:
+            print(f"{Fore.GREEN}Found URL: {Style.RESET_ALL}{url}")
+
     except FileNotFoundError:
         print(f"{Fore.RED}Error: File not found - {input_file}{Style.RESET_ALL}")
     except IOError as e:
         print(f"{Fore.RED}I/O error({e.errno}): {e.strerror}{Style.RESET_ALL}")
+
+# Existing code...
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="URLs Extractor Script")
